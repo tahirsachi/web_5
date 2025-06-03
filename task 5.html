@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capstone Web App with Product Listing</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; scroll-behavior: smooth; }
+    header, footer { background: #4CAF50; color: white; text-align: center; padding: 1rem; }
+    nav { background: #333; }
+    nav ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; }
+    nav a { color: white; padding: 0.5rem 1rem; display: block; text-decoration: none; cursor: pointer; }
+    nav a:hover { background: #575757; }
+    main { padding: 2rem; }
+
+    section { display: none; }
+    section.active { display: block; }
+
+    /* Attractive Home Section */
+    #home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.3);
+      margin-bottom: 2rem;
+    }
+    #home .hero-content {
+      max-width: 600px;
+    }
+    #home h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    #home p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    #home button {
+      background: #ff6f61;
+      border: none;
+      color: white;
+      padding: 0.8rem 2.5rem;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 111, 97, 0.5);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    #home button:hover {
+      background: #ff4a3d;
+      transform: scale(1.05);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+    .filters select {
+      padding: 0.5rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .product {
+      background: white;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+    }
+    .product h3 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+      color: #222;
+    }
+    .product p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: #555;
+      text-transform: capitalize;
+    }
+    .product span {
+      font-weight: bold;
+      color: #4CAF50;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+      .filters {
+        flex-direction: column;
+        align-items: center;
+      }
+      #home h2 {
+        font-size: 2.2rem;
+      }
+      #home p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Capstone Web Application</h1>
+    <p>Responsive Product Listing Page with Filters & Sorting</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" data-target="home">Home</a></li>
+      <li><a href="#" data-target="features">Features</a></li>
+      <li><a href="#" data-target="about">About</a></li>
+      <li><a href="#" data-target="contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="home" class="active">
+      <div class="hero-content">
+        <h2>Welcome to Your Capstone Project</h2>
+        <p>Explore a beautifully crafted web application featuring a dynamic product listing page with filtering and sorting. Built with responsiveness and performance in mind.</p>
+        <button id="goFeatures">View Products</button>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2 style="text-align: center; margin-bottom: 1rem;">Product Listing</h2>
+      <div class="filters">
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="books">Books</option>
+        </select>
+        <select id="sortFilter">
+          <option value="default">Sort By</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+      </div>
+      <div class="products" id="productList"></div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>This project demonstrates a responsive product listing page with filtering and sorting options using HTML, CSS, and JavaScript.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Email us at capstone@example.com</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Capstone Project. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const products = [
+      { id: 1, name: 'Smartphone', category: 'electronics', price: 699, image: 'https://via.placeholder.com/200x150?text=Smartphone' },
+      { id: 2, name: 'Headphones', category: 'electronics', price: 199, image: 'https://via.placeholder.com/200x150?text=Headphones' },
+      { id: 3, name: 'T-Shirt', category: 'fashion', price: 29, image: 'https://via.placeholder.com/200x150?text=T-Shirt' },
+      { id: 4, name: 'Jeans', category: 'fashion', price: 49, image: 'https://via.placeholder.com/200x150?text=Jeans' },
+      { id: 5, name: 'Book: JS Guide', category: 'books', price: 15, image: 'https://via.placeholder.com/200x150?text=JS+Guide' },
+      { id: 6, name: 'Novel: Fiction', category: 'books', price: 20, image: 'https://via.placeholder.com/200x150?text=Fiction+Novel' },
+    ];
+
+    const productList = document.getElementById('productList');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortFilter = document.getElementById('sortFilter');
+
+    function renderProducts(list) {
+      if (list.length === 0) {
+        productList.innerHTML = '<p style="text-align:center; width:100%;">No products found.</p>';
+        return;
+      }
+      productList.innerHTML = list.map(p => `
+        <div class="product">
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p>Category: ${p.category}</p>
+          <span>$${p.price}</span>
+        </div>
+      `).join('');
+    }
+
+    function filterAndSort() {
+      let filtered = [...products];
+      const category = categoryFilter.value;
+      if (category !== 'all') filtered = filtered.filter(p => p.category === category);
+      const sort = sortFilter.value;
+      if (sort === 'low') filtered.sort((a, b) => a.price - b.price);
+      else if (sort === 'high') filtered.sort((a, b) => b.price - a.price);
+      renderProducts(filtered);
+    }
+
+    categoryFilter.addEventListener('change', filterAndSort);
+    sortFilter.addEventListener('change', filterAndSort);
+
+    // Navigation links
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.dataset.target;
+        document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+        if (target === 'features') renderProducts(products);
+      });
+    });
+
+    // Button on Home page to go to Features
+    document.getElementById('goFeatures').addEventListener('click', () => {
+      document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+      const featuresSection = document.getElementById('features');
+      featuresSection.classList.add('active');
+      renderProducts(products);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Show home on load
+    document.getElementById('home').classList.add('active');
+  </script>
+</body>
+</html>
